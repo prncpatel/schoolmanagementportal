@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import Box from "@mui/material/Box";
-import AccountMenu from './AccountMenu';
+import AccountMenu from "./AccountMenu";
 
 const drawerWidth = 240;
 
@@ -44,7 +44,7 @@ const Navbar = ({ open, handleDrawerOpen }) => {
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant="h6" noWrap component="div">
+        <Typography variant="h3" noWrap component="div">
           School Name
         </Typography>
         <Box sx={{ flexGrow: 1 }} />

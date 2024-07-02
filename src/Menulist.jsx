@@ -26,6 +26,7 @@ const openedMixin = (theme) => ({
     duration: theme.transitions.duration.enteringScreen,
   }),
   overflowX: "hidden",
+  background: "linear-gradient(45deg, #ffffff, #f0f0f0)",
 });
 
 const closedMixin = (theme) => ({
@@ -33,20 +34,13 @@ const closedMixin = (theme) => ({
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
+  background: "linear-gradient(45deg, #ffffff, #f0f0f0)",
   overflowX: "hidden",
   width: `calc(${theme.spacing(0)} + 1px)`,
   [theme.breakpoints.up("sm")]: {
     width: `calc(${theme.spacing(8)} + 1px)`,
   },
 });
-
-const DrawerHeader = styled("div")(({ theme }) => ({
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "flex-end",
-  padding: theme.spacing(0, 1),
-  ...theme.mixins.toolbar,
-}));
 
 const Drawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== "open",
@@ -68,7 +62,22 @@ const Drawer = styled(MuiDrawer, {
   },
 }));
 
-const MenuList = ({ open, handleDrawerClose, selectedIndex, handleListItemClick, nestedOpen, handleNestedClick }) => {
+const DrawerHeader = styled("div")(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "flex-end",
+  padding: theme.spacing(0, 1),
+  ...theme.mixins.toolbar,
+}));
+
+const MenuList = ({
+  open,
+  handleDrawerClose,
+  selectedIndex,
+  handleListItemClick,
+  nestedOpen,
+  handleNestedClick,
+}) => {
   const theme = useTheme();
 
   return (

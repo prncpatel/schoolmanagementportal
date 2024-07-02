@@ -11,6 +11,7 @@ import Tooltip from '@mui/material/Tooltip';
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
+import Avater from './utilities/logos&Images/man.png'
 
 export default function AccountMenu() {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -35,7 +36,7 @@ export default function AccountMenu() {
           >
              <Avatar
               alt="Prince Patel"
-              src="/static/images/avatar/3.jpg"
+              src={Avater}
               sx={{ bgcolor: "gray" }}
             />
           </IconButton>
