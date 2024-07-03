@@ -16,6 +16,9 @@ import SchoolSharpIcon from "@mui/icons-material/SchoolSharp";
 import PersonAddAlt1SharpIcon from "@mui/icons-material/PersonAddAlt1Sharp";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
+import ThreePIcon from '@mui/icons-material/ThreeP';
+import PendingActionsIcon from '@mui/icons-material/PendingActions';
+import NoteAltIcon from '@mui/icons-material/NoteAlt';
 
 const drawerWidth = 240;
 
@@ -129,6 +132,40 @@ const MenuList = ({
                 <PersonAddAlt1SharpIcon />
               </ListItemIcon>
               <ListItemText primary="Add Student" />
+            </ListItemButton>
+          </List>
+        </Collapse>
+        <ListItemButton
+          selected={selectedIndex === 4}
+          onClick={handleNestedClick}
+        >
+          <ListItemIcon>
+            <ThreePIcon />
+          </ListItemIcon>
+          <ListItemText primary="Communicate" />
+          {nestedOpen ? <ExpandLess /> : <ExpandMore />}
+        </ListItemButton>
+        <Collapse in={nestedOpen} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <ListItemButton
+              sx={{ pl: 4 }}
+              selected={selectedIndex === 5}
+              onClick={(event) => handleListItemClick(event, 5)}
+            >
+              <ListItemIcon>
+                <PendingActionsIcon />
+              </ListItemIcon>
+              <ListItemText primary="Notice Board" />
+            </ListItemButton>
+            <ListItemButton
+              sx={{ pl: 4 }}
+              selected={selectedIndex === 6}
+              onClick={(event) => handleListItemClick(event, 6)}
+            >
+              <ListItemIcon>
+                <NoteAltIcon />
+              </ListItemIcon>
+              <ListItemText primary="Add Notice" />
             </ListItemButton>
           </List>
         </Collapse>
