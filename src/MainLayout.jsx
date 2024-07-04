@@ -1,20 +1,19 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import CssBaseline from "@mui/material/CssBaseline";
-import Navbar from "./Navbar";
-import MenuList from "./Menulist";
-import Body from "./Body";
-import { styled } from "@mui/material/styles";
+import React from 'react';
+import Box from '@mui/material/Box';
+import CssBaseline from '@mui/material/CssBaseline';
+import Navbar from './Navbar';
+import MenuList from './Menulist';
+import { styled } from '@mui/material/styles';
 
-const DrawerHeader = styled("div")(({ theme }) => ({
-  display: "flex",
-  alignItems: "center",
+const DrawerHeader = styled('div')(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
   padding: theme.spacing(0, 1),
   ...theme.mixins.toolbar,
-  justifyContent: "flex-end",
+  justifyContent: 'flex-end',
 }));
 
-export default function MiniDrawer() {
+const MiniDrawer = ({ children }) => {
   const [open, setOpen] = React.useState(true);
   const [selectedIndex, setSelectedIndex] = React.useState(0);
   const [nestedOpen, setNestedOpen] = React.useState(true);
@@ -36,7 +35,7 @@ export default function MiniDrawer() {
   };
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <Navbar open={open} handleDrawerOpen={handleDrawerOpen} />
       <MenuList
@@ -49,8 +48,10 @@ export default function MiniDrawer() {
       />
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
-        <Body />
+        {children}
       </Box>
     </Box>
   );
 }
+
+export default MiniDrawer;

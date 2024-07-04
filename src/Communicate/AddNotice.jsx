@@ -12,33 +12,31 @@ import {
   Paper,
   Container,
   Grid,
+  TextareaAutosize
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 const AddNoticeContainer = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(3),
   marginTop: theme.spacing(3),
-  boxShadow: 'none',
+  boxShadow: "none",
   width: "100%",
   maxWidth: "100%",
 }));
 
 const SaveButtonContainer = styled(Box)(({ theme }) => ({
-  position: 'fixed',
-  bottom: 0,
-  left: 0,
-  right: 0,
   backgroundColor: "#f0f0f0", // light background color
   padding: theme.spacing(2),
-  textAlign: 'left', // align button to the left
+  textAlign: "left", // align button to the left
+  marginTop: "auto", // push to the bottom of the container
 }));
 
 const SaveButton = styled(Button)(({ theme }) => ({
   backgroundColor: "#7a33ff", // your color
   color: "#fff",
-  '&:hover': {
+  "&:hover": {
     backgroundColor: "#5a23cc", // darker shade of your color
-  }
+  },
 }));
 
 const messageToOptions = [
@@ -49,7 +47,7 @@ const messageToOptions = [
   "Accountant",
   "Receptionist",
   "Librarian",
-  "Driver"
+  "Driver",
 ];
 
 function AddNotice() {
@@ -58,7 +56,7 @@ function AddNotice() {
     notice: "",
     noticeDate: "",
     publishOn: "",
-    messageTo: []
+    messageTo: [],
   });
 
   const handleChange = (e) => {
@@ -68,7 +66,10 @@ function AddNotice() {
         if (checked) {
           return { ...prevNotice, messageTo: [...prevNotice.messageTo, value] };
         } else {
-          return { ...prevNotice, messageTo: prevNotice.messageTo.filter((role) => role !== value) };
+          return {
+            ...prevNotice,
+            messageTo: prevNotice.messageTo.filter((role) => role !== value),
+          };
         }
       });
     } else {
@@ -81,17 +82,22 @@ function AddNotice() {
     console.log("Saved Notice:", notice);
     // Reset form fields after saving
     setNotice({
-        title: "",
-        notice: "",
-        noticeDate: "",
-        publishOn: "",
-        messageTo: []
-      });
+      title: "",
+      notice: "",
+      noticeDate: "",
+      publishOn: "",
+      messageTo: [],
+    });
   };
 
   return (
-    <Container style={{ marginTop: '100px', marginLeft: '200px' }}>
-      <Typography variant="h6" style={{ color: "#3d467f", marginBottom: "1rem" }}>Add Notice</Typography>
+    <Container>
+      <Typography
+        variant="h6"
+        style={{ color: "#3d467f", marginBottom: "1rem" }}
+      >
+        Add Notice
+      </Typography>
       <AddNoticeContainer>
         <Grid container spacing={3}>
           <Grid item xs={12} md={8}>
@@ -104,15 +110,15 @@ function AddNotice() {
                 required
                 fullWidth
               />
-              <TextField
-                label="Notice"
+             <TextareaAutosize
+                aria-label="Notice"
+                placeholder="Notice"
                 name="notice"
                 value={notice.notice}
                 onChange={handleChange}
-                required
-                multiline
-                rows={4}
-                fullWidth
+                minRows={4} // Adjust the number of rows as needed
+                maxRows={8} // Maximum number of rows before scrolling
+                style={{ width: "100%", padding: "10px", fontSize: "16px", minHeight: "100px", maxHeight: "200px", resize: "none" }} // Disable resize
               />
               <Box display="flex" justifyContent="space-between" gap={2}>
                 <TextField
@@ -162,7 +168,9 @@ function AddNotice() {
         </Grid>
       </AddNoticeContainer>
       <SaveButtonContainer>
-        <SaveButton variant="contained" onClick={handleSave}>Save Content</SaveButton>
+        <SaveButton variant="contained" onClick={handleSave}>
+          Save Content
+        </SaveButton>
       </SaveButtonContainer>
     </Container>
   );

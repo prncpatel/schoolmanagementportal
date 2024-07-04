@@ -47,7 +47,7 @@ function NoticeBoard() {
   };
 
   return (
-    <NoticeBoardContainer style={{ marginTop: '100px', marginLeft: '220px' }}>
+    <NoticeBoardContainer>
       <Box display="flex" alignItems="center" mb={2}>
         <Typography variant="h6" style={{ color: "#3d467f" }}>All Notices</Typography>
         <AddNoticeButton variant="contained" onClick={handleAddNotice}>Add Notice</AddNoticeButton>
