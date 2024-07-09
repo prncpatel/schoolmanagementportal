@@ -108,6 +108,21 @@ const Theme = createTheme({
         fontSize: "1.25rem",
       },
     },
+    body2: {
+      fontSize: "0.70rem",
+      "@media (min-width:600px)": {
+        fontSize: "0.75rem",
+      },
+      "@media (min-width:960px)": {
+        fontSize: "0.80rem",
+      },
+      "@media (min-width:1280px)": {
+        fontSize: "0.85rem",
+      },
+      "@media (min-width:1920px)": {
+        fontSize: "0.90rem",
+      },
+    },
     // Add more typography styles as needed
   },
 });

@@ -23,6 +23,9 @@ function Dashboard() {
       <Box
         boxShadow="0px 3px 5px 0px rgba(0,0,0,0.1), 0px -1px 2px 0px rgba(0,0,0,0.1)"
         p={3}
+        sx={{
+          background:'#fff'
+        }}
       >
         <DashboardBoxes />
       </Box>
@@ -32,7 +35,9 @@ function Dashboard() {
             <Box
               boxShadow="0px 3px 5px 0px rgba(0,0,0,0.1), 0px -1px 2px 0px rgba(0,0,0,0.1)"
               p={3}
-              height="100%"
+              sx={{
+                background:'#fff'
+              }}
             >
               <DashboardNoticeBoard notices={notices}/> 
             </Box>
