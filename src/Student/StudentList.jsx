@@ -1,107 +1,79 @@
-import React from "react";
-import { Grid, Typography, Paper, Avatar, Box, Divider } from "@mui/material";
-import { styled } from "@mui/material/styles";
+import * as React from 'react';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import HomeIcon from '@mui/icons-material/Home';
+import {
+  DataGridPro,
+  useGridApiRef,
+  gridExpandedRowCountSelector,
+  gridVisibleColumnDefinitionsSelector,
+  gridExpandedSortedRowIdsSelector,
+} from '@mui/x-data-grid-pro';
+import { useDemoData } from '@mui/x-data-grid-generator';
 
-const Wrapper = styled(Box)({
-  border: "1px solid #dddddd", // Light border
-  borderRadius: "8px",
-  marginBottom: "20px", // Spacing below the card
-});
+export default function ManageStudent() {
+  const apiRef = useGridApiRef();
 
-const ProfileContainer = styled(Box)({
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  backgroundColor: "#7a33ff",
-  paddingTop: "20px",
-  paddingBottom: "80px", // Increase height of the background portion
-  position: "relative",
-  borderRadius: "8px 8px 0 0",
-});
+  const [coordinates, setCoordinates] = React.useState({
+    rowIndex: 0,
+    colIndex: 0,
+  });
 
-const AvatarContainer = styled(Box)({
-  position: "absolute",
-  top: "60px", // Adjust the top position of the avatar to give space for the header
-});
+  const { data } = useDemoData({
+    dataSet: 'Commodity',
+    rowLength: 100,
+  });
 
-const StudentDetailsCard = styled(Paper)({
-  padding: "20px",
-  boxShadow: "0px 0px 10px rgba(0,0,0,0.1)",
-  borderRadius: "8px",
-  backgroundColor: "#ffffff",
-});
+  React.useEffect(() => {
+    const { rowIndex, colIndex } = coordinates;
+    apiRef.current.scrollToIndexes(coordinates);
+    const id = gridExpandedSortedRowIdsSelector(apiRef)[rowIndex];
+    const column = gridVisibleColumnDefinitionsSelector(apiRef)[colIndex];
+    apiRef.current.setCellFocus(id, column.field);
+  }, [apiRef, coordinates]);
 
-const InfoContainer = styled(Box)({
-  paddingTop: "60px", // Adjust padding to give space for the avatar
-  textAlign: "left",
-  width: "100%",
-});
+  const handleClick = (position) => () => {
+    const maxRowIndex = gridExpandedRowCountSelector(apiRef) - 1;
+    const maxColIndex = gridVisibleColumnDefinitionsSelector(apiRef).length - 1;
 
-const InfoText = styled(Typography)({
-  marginBottom: "8px",
-  display: "flex",
-  justifyContent: "space-between",
-  color: "#666666",
-  fontSize: "14px",
-});
+    setCoordinates((coords) => {
+      switch (position) {
+        case 'top':
+          return { ...coords, rowIndex: Math.max(0, coords.rowIndex - 1) };
+        case 'bottom':
+          return { ...coords, rowIndex: Math.min(maxRowIndex, coords.rowIndex + 1) };
+        case 'left':
+          return { ...coords, colIndex: Math.max(0, coords.colIndex - 1) };
+        case 'right':
+          return { ...coords, colIndex: Math.min(maxColIndex, coords.colIndex + 1) };
+        default:
+          return { ...coords, rowIndex: 0, colIndex: 0 };
+      }
+    });
+  };
 
-const StudentDetails = () => {
+  const handleCellClick = (params) => {
+    const rowIndex = gridExpandedSortedRowIdsSelector(apiRef).findIndex(
+      (id) => id === params.id,
+    );
+    const colIndex = gridVisibleColumnDefinitionsSelector(apiRef).findIndex(
+      (column) => column.field === params.field,
+    );
+    setCoordinates({ rowIndex, colIndex });
+  };
+
   return (
-    <Grid container spacing={3} style={{ height: "100vh", overflow: "hidden" }}>
-      <Grid item xs={12} md={3}>
-        <Wrapper>
-          <StudentDetailsCard elevation={3}>
-            <Typography variant="h6" gutterBottom style={{ fontWeight: "bold", fontSize: "18px", textAlign: "left", color: "#666666" }}>
-              Student Details
-            </Typography>
-            <ProfileContainer>
-              <AvatarContainer>
-                <Avatar
-                  alt="Student Name"
-                  src="/path_to_image"
-                  style={{
-                    width: "100px",
-                    height: "100px",
-                    border: "5px solid #ffffff",
-                    borderRadius: "8px",
-                  }}
-                />
-              </AvatarContainer>
-            </ProfileContainer>
-            <InfoContainer>
-              <InfoText variant="body2">
-                <span>Student Name:</span> <span style={{ fontWeight: "bold", color: "#666666" }}>priyanl sheth</span>
-              </InfoText>
-              <Divider />
-              <InfoText variant="body2">
-                <span>Admission Number:</span> <span style={{ fontWeight: "bold", color: "#666666" }}>400</span>
-              </InfoText>
-              <Divider />
-              <InfoText variant="body2">
-                <span>Roll Number:</span> <span style={{ fontWeight: "bold", color: "#666666" }}>298</span>
-              </InfoText>
-              <Divider />
-              <InfoText variant="body2">
-                <span>Class:</span> <span style={{ fontWeight: "bold", color: "#666666" }}>6th (Eng)</span>
-              </InfoText>
-              <Divider />
-              <InfoText variant="body2">
-                <span>Section:</span> <span style={{ fontWeight: "bold", color: "#666666" }}>A</span>
-              </InfoText>
-              <Divider />
-              <InfoText variant="body2">
-                <span>Gender:</span> <span style={{ fontWeight: "bold", color: "#666666" }}>Male</span>
-              </InfoText>
-              <Divider />
-              <InfoText variant="body2">
-                <span>Behaviour Records Point:</span> <span style={{ fontWeight: "bold", color: "#666666" }}>0</span>
-              </InfoText>
-            </InfoContainer>
-          </StudentDetailsCard>
-        </Wrapper>
-      </Grid>
-    </Grid>
+    <Box sx={{ maxWidth: '100%' , width:300 }}>
+      <Box sx={{ width :'100%',height: 400 }}>
+        <DataGridPro
+          apiRef={apiRef}
+          onCellClick={handleCellClick}
+          hideFooter
+          {...data}
+        />
+      </Box>
+    </Box>
   );
-};
-
-export default StudentDetails;
+}
