@@ -1,5 +1,13 @@
 import React from "react";
-import { Grid, Typography, Paper, Avatar, Box, Divider } from "@mui/material";
+import {
+  Grid,
+  Typography,
+  Paper,
+  Avatar,
+  Box,
+  Divider,
+  Button,
+} from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 const Wrapper = styled(Box)({
@@ -22,7 +30,7 @@ const ProfileContainer = styled(Box)({
 const AvatarContainer = styled(Box)({
   position: "absolute",
   top: "60px", // Adjust the top position of the avatar to give space for the header
-  left:'20px'
+  left: "20px",
 });
 
 const StudentDetailsCard = styled(Paper)({
@@ -46,13 +54,62 @@ const InfoText = styled(Typography)({
   fontSize: "14px",
 });
 
+const TabsContainer = styled(Box)({
+  display: "flex",
+  justifyContent: "space-between",
+  flexWrap: "wrap",
+  marginBottom: "20px",
+});
+
+const TabButton = styled(Button)({
+  flex: "1 1 20%",
+  margin: "5px",
+  backgroundColor: "#e2e8f9",
+  color: "#000",
+  textTransform: "none",
+  borderRadius: "8px",
+  fontWeight: "bold",
+});
+
+const EditButton = styled(Button)({
+  backgroundColor: "#7a33ff",
+  color: "#fff",
+  textTransform: "none",
+  borderRadius: "8px",
+  fontWeight: "bold",
+  height: "40px",
+  width: "80px",
+  alignSelf: "flex-end",
+});
+
+const DetailsList = styled(Box)({
+  marginBottom: "20px",
+});
+
+const DetailItem = styled(Box)({
+  display: "flex",
+  justifyContent: "space-between",
+  marginBottom: "10px",
+  color: "#666666",
+  fontSize: "14px",
+});
+
 const StudentDetails = () => {
   return (
-    <Grid container spacing={3} style={{ height: "100vh", overflow: "hidden" }}>
+    <Grid container spacing={3}>
       <Grid item xs={12} lg={3}>
         <Wrapper>
           <StudentDetailsCard elevation={3}>
-            <Typography variant="h6" gutterBottom style={{ fontWeight: "bold", fontSize: "18px", textAlign: "left", color: "#666666" }}>
+            <Typography
+              variant="h6"
+              gutterBottom
+              style={{
+                fontWeight: "bold",
+                fontSize: "18px",
+                textAlign: "left",
+                color: "#666666",
+              }}
+            >
               Student Details
             </Typography>
             <ProfileContainer>
@@ -71,33 +128,133 @@ const StudentDetails = () => {
             </ProfileContainer>
             <InfoContainer>
               <InfoText variant="body2">
-                <span>Student Name:</span> <span style={{ fontWeight: "bold", color: "#666666" }}>priyanl sheth</span>
+                <span>Student Name:</span>{" "}
+                <span style={{ fontWeight: "bold", color: "#666666" }}>
+                  priyanl sheth
+                </span>
               </InfoText>
               <Divider />
               <InfoText variant="body2">
-                <span>Admission Number:</span> <span style={{ fontWeight: "bold", color: "#666666" }}>400</span>
+                <span>Admission Number:</span>{" "}
+                <span style={{ fontWeight: "bold", color: "#666666" }}>
+                  400
+                </span>
               </InfoText>
               <Divider />
               <InfoText variant="body2">
-                <span>Roll Number:</span> <span style={{ fontWeight: "bold", color: "#666666" }}>298</span>
+                <span>Roll Number:</span>{" "}
+                <span style={{ fontWeight: "bold", color: "#666666" }}>
+                  298
+                </span>
               </InfoText>
               <Divider />
               <InfoText variant="body2">
-                <span>Class:</span> <span style={{ fontWeight: "bold", color: "#666666" }}>6th (Eng)</span>
+                <span>Class:</span>{" "}
+                <span style={{ fontWeight: "bold", color: "#666666" }}>
+                  6th (Eng)
+                </span>
               </InfoText>
               <Divider />
               <InfoText variant="body2">
-                <span>Section:</span> <span style={{ fontWeight: "bold", color: "#666666" }}>A</span>
+                <span>Section:</span>{" "}
+                <span style={{ fontWeight: "bold", color: "#666666" }}>A</span>
               </InfoText>
               <Divider />
               <InfoText variant="body2">
-                <span>Gender:</span> <span style={{ fontWeight: "bold", color: "#666666" }}>Male</span>
+                <span>Gender:</span>{" "}
+                <span style={{ fontWeight: "bold", color: "#666666" }}>
+                  Male
+                </span>
               </InfoText>
               <Divider />
               <InfoText variant="body2">
-                <span>Behaviour Records Point:</span> <span style={{ fontWeight: "bold", color: "#666666" }}>0</span>
+                <span>Behaviour Records Point:</span>{" "}
+                <span style={{ fontWeight: "bold", color: "#666666" }}>0</span>
               </InfoText>
             </InfoContainer>
+          </StudentDetailsCard>
+        </Wrapper>
+      </Grid>
+      <Grid item xs={12} lg={9}>
+        <Wrapper>
+          <StudentDetailsCard elevation={3}>
+            <Wrapper style={{display:'flex',justifyContent:'flex-end' , border:'none'}}>
+              <EditButton>Edit</EditButton>
+            </Wrapper>
+            <TabsContainer>
+              {[
+                "Profile",
+                "Fees",
+                "Leave",
+                "Exam",
+                "Document",
+                "Record",
+                "Timeline",
+                "Student Attendance",
+                "Subject Attendance",
+                "Behaviour Record",
+                "Marksheet",
+              ].map((tab) => (
+                <TabButton key={tab}>{tab}</TabButton>
+              ))}
+            </TabsContainer>
+            <DetailsList>
+              <DetailItem>
+                <Typography variant="body2">Admission Date</Typography>
+                <Typography variant="body2">14th Jun, 2020</Typography>
+              </DetailItem>
+              <Divider />
+              <DetailItem>
+                <Typography variant="body2">Date Of Birth</Typography>
+                <Typography variant="body2">7th Mar, 2006</Typography>
+              </DetailItem>
+              <Divider />
+              <DetailItem>
+                <Typography variant="body2">Age</Typography>
+                <Typography variant="body2">18 years</Typography>
+              </DetailItem>
+              <Divider />
+              <DetailItem>
+                <Typography variant="body2">Category</Typography>
+                <Typography variant="body2">-</Typography>
+              </DetailItem>
+              <Divider />
+              <DetailItem>
+                <Typography variant="body2">Group</Typography>
+                <Typography variant="body2">-</Typography>
+              </DetailItem>
+              <Divider />
+              <DetailItem>
+                <Typography variant="body2">Religion</Typography>
+                <Typography variant="body2">Islam</Typography>
+              </DetailItem>
+              <Divider />
+              <DetailItem>
+                <Typography variant="body2">Phone Number</Typography>
+                <Typography variant="body2" style={{ color: "#649236" }}>
+                  6492364
+                </Typography>
+              </DetailItem>
+              <Divider />
+              <DetailItem>
+                <Typography variant="body2">Email Address</Typography>
+                <Typography variant="body2" style={{ color: "#649236" }}>
+                  student1@demo.com
+                </Typography>
+              </DetailItem>
+              <Divider />
+              <DetailItem>
+                <Typography variant="body2">Present Address</Typography>
+                <Typography variant="body2">
+                  BD ZAYD IBN SULTANE LOT BAYT BAHIA N°29
+                </Typography>
+              </DetailItem>
+              <Divider />
+              <DetailItem>
+                <Typography variant="body2">Permanent Address</Typography>
+                <Typography variant="body2">-</Typography>
+              </DetailItem>
+            </DetailsList>
           </StudentDetailsCard>
         </Wrapper>
       </Grid>

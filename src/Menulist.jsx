@@ -173,6 +173,16 @@ const MenuList = ({
               </ListItemIcon>
               <ListItemText primary="Student Details" />
             </ListItemButton>
+            <ListItemButton
+              sx={{ pl: 4 }}
+              selected={selectedIndex === 10}
+              onClick={() => handleNavigation("/table-component", 10)}
+            >
+              <ListItemIcon>
+                <DetailsIcon />
+              </ListItemIcon>
+              <ListItemText primary="Table Component" />
+            </ListItemButton>
           </List>
         </Collapse>
         <ListItemButton
