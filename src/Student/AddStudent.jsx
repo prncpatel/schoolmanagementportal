@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import {
   Box,
@@ -13,10 +13,9 @@ import {
   Select,
   Divider,
   Tabs,
-  Tab,
+  Tab
 } from "@mui/material";
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
-import ImageIcon from "@mui/icons-material/Image";
 
 // Function to get MIME type from file name
 const getMimeType = (fileName) => {
@@ -243,6 +242,20 @@ const fieldsConfig = [
       { label: "Custom Field 2", name: "customField2", type: "text" },
     ],
   },
+  {
+    tab: "Custom Field",
+    fields: [
+      { label: "Custom Field 1", name: "customField1", type: "text" },
+      { label: "Custom Field 2", name: "customField2", type: "text" },
+    ],
+  },
+  {
+    tab: "Custom Field",
+    fields: [
+      { label: "Custom Field 1", name: "customField1", type: "text" },
+      { label: "Custom Field 2", name: "customField2", type: "text" },
+    ],
+  },
 ];
 
 const theme = createTheme({
@@ -261,10 +274,71 @@ const theme = createTheme({
 
 const AddStudentForm = () => {
   const [selectedTab, setSelectedTab] = useState(0);
+  const tabsRef = useRef(null);
+  const isDragging = useRef(false);
+  const startX = useRef(0);
+  const scrollLeft = useRef(0);
+  const velocity = useRef(0);
+  const momentumID = useRef(null);
 
   const handleTabChange = (event, newValue) => {
     setSelectedTab(newValue);
   };
+
+  const handleMouseDown = (e) => {
+    isDragging.current = true;
+    startX.current = e.pageX - tabsRef.current.offsetLeft;
+    scrollLeft.current = tabsRef.current.scrollLeft;
+    velocity.current = 0;
+
+    if (momentumID.current) {
+      cancelAnimationFrame(momentumID.current);
+    }
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isDragging.current) return;
+    e.preventDefault();
+    const x = e.pageX - tabsRef.current.offsetLeft;
+    const walk = (x - startX.current) * 1.5;
+    velocity.current = walk - (tabsRef.current.scrollLeft - scrollLeft.current);
+    tabsRef.current.scrollLeft = scrollLeft.current - walk;
+  };
+
+  const handleMouseUp = () => {
+    isDragging.current = false;
+    applyMomentum();
+  };
+
+  const applyMomentum = () => {
+    if (Math.abs(velocity.current) > 0.5) {
+      tabsRef.current.scrollLeft -= velocity.current;
+      velocity.current *= 0.95; // Friction effect
+      momentumID.current = requestAnimationFrame(applyMomentum);
+    }
+  };
+
+  // Ensure selected tab is fully visible
+  useEffect(() => {
+    const tabList = tabsRef.current;
+    if (!tabList) return;
+
+    const selectedTab = tabList.querySelector(".Mui-selected");
+    if (selectedTab) {
+      const tabLeft = selectedTab.offsetLeft;
+      const tabWidth = selectedTab.offsetWidth;
+      const containerScrollLeft = tabList.scrollLeft;
+      const containerWidth = tabList.clientWidth;
+
+      if (tabLeft < containerScrollLeft) {
+        // Scroll left if tab is partially hidden on the left
+        tabList.scrollTo({ left: tabLeft, behavior: "smooth" });
+      } else if (tabLeft + tabWidth > containerScrollLeft + containerWidth) {
+        // Scroll right if tab is partially hidden on the right
+        tabList.scrollTo({ left: tabLeft + tabWidth - containerWidth, behavior: "smooth" });
+      }
+    }
+  }, [selectedTab]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -273,7 +347,7 @@ const AddStudentForm = () => {
         <Typography variant="h6" gutterBottom>
           Student Admission
         </Typography>
-        <Box p={4} sx={{ backgroundColor: "#f5f5f5", borderRadius: "8px" }}>
+        <Box p={4} sx={{ backgroundColor: "#fff", borderRadius: "8px" }}>
           <Box
             display="flex"
             justifyContent="space-between"
@@ -281,29 +355,37 @@ const AddStudentForm = () => {
             mb={2}
           >
             <Typography variant="body1">Add Student</Typography>
-            <Button variant="contained" color="primary">
+            <Button variant="outlined" color="primary">
               Import Student
             </Button>
           </Box>
-          <Box>
+          <Box
+            ref={tabsRef}
+            sx={{
+              overflowX: "auto",
+              whiteSpace: "nowrap",
+              cursor: "grab",
+              display: "flex",
+              "&::-webkit-scrollbar": { display: "none" },
+            }}
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseUp}
+          >
             <Tabs
               value={selectedTab}
               onChange={handleTabChange}
               aria-label="student admission tabs"
               variant="scrollable"
               scrollButtons={false}
-              sx={{
-                "& .MuiTabs-flexContainer": {
-                  flexWrap: "wrap",
-                },
-                "& .MuiTabs-indicator": {
+              sx={{ minWidth: "100%", flexShrink: 0,"& .MuiTabs-indicator": {
                   display: "none",
                 },
                 "& .Mui-selected": {
                   borderBottom: `2px solid ${theme.palette.primary.main}`,
                   color: theme.palette.primary.main,
-                }
-              }}
+                } }}
             >
               {fieldsConfig.map((tab, index) => (
                 <Tab key={index} label={tab.tab} />

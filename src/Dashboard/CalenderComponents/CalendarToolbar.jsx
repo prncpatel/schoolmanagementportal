@@ -4,9 +4,8 @@ import {
   Button,
   Typography,
   useMediaQuery,
-  useTheme,
-  IconButton,
 } from "@mui/material";
+import {  useTheme } from '@mui/material/styles'
 import { Box } from "@mui/system";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";

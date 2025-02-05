@@ -1,6 +1,14 @@
 import { createTheme } from "@mui/material/styles";
 
 const Theme = createTheme({
+  palette: {
+    primary: {
+      main: "#7c32ff",
+    },
+    secondary: {
+      main: "#03dac6",
+    },
+  },
   typography: {
     fontFamily: "Roboto, Arial, sans-serif",
     h1: {

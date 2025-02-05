@@ -46,7 +46,7 @@ const MiniDrawer = ({ children }) => {
         nestedOpen={nestedOpen}
         handleNestedClick={handleNestedClick}
       />
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <Box component="main" sx={{ flexGrow: 1, p: 3, overflow:'auto' }}>
         <DrawerHeader />
         {children}
       </Box>
