@@ -1,0 +1,28 @@
+.rbc-event {
+    background: none !important;
+    border: none !important;
+    padding: 0 !important;
+  }
+  
+  .rbc-event-content {
+    display: inline !important;
+  }
+  
+  .rbc-row-segment .rbc-event {
+    display: inline;
+  }
+
+  .custom-event-container {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .event-icon {
+    cursor: pointer;
+    margin: auto;
+    font-size: 24px; /* Adjust size as needed */
+    color: #0C237E; /* Adjust icon color */
+  }
+  

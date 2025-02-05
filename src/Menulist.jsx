@@ -1,5 +1,6 @@
 import React from "react";
 import { styled, useTheme } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
 import MuiDrawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -16,6 +17,12 @@ import SchoolSharpIcon from "@mui/icons-material/SchoolSharp";
 import PersonAddAlt1SharpIcon from "@mui/icons-material/PersonAddAlt1Sharp";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
+import ThreePIcon from "@mui/icons-material/ThreeP";
+import PendingActionsIcon from "@mui/icons-material/PendingActions";
+import NoteAltIcon from "@mui/icons-material/NoteAlt";
+import FactCheckSharpIcon from "@mui/icons-material/FactCheckSharp";
+import CategoryIcon from "@mui/icons-material/Category";
+import DetailsIcon from "@mui/icons-material/Details";
 
 const drawerWidth = 240;
 
@@ -26,6 +33,7 @@ const openedMixin = (theme) => ({
     duration: theme.transitions.duration.enteringScreen,
   }),
   overflowX: "hidden",
+  background: "linear-gradient(45deg, #ffffff, #f0f0f0)",
 });
 
 const closedMixin = (theme) => ({
@@ -33,20 +41,13 @@ const closedMixin = (theme) => ({
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
+  background: "linear-gradient(45deg, #ffffff, #f0f0f0)",
   overflowX: "hidden",
   width: `calc(${theme.spacing(0)} + 1px)`,
   [theme.breakpoints.up("sm")]: {
     width: `calc(${theme.spacing(8)} + 1px)`,
   },
 });
-
-const DrawerHeader = styled("div")(({ theme }) => ({
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "flex-end",
-  padding: theme.spacing(0, 1),
-  ...theme.mixins.toolbar,
-}));
 
 const Drawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== "open",
@@ -68,8 +69,29 @@ const Drawer = styled(MuiDrawer, {
   },
 }));
 
-const MenuList = ({ open, handleDrawerClose, selectedIndex, handleListItemClick, nestedOpen, handleNestedClick }) => {
+const DrawerHeader = styled("div")(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "flex-end",
+  padding: theme.spacing(0, 1),
+  ...theme.mixins.toolbar,
+}));
+
+const MenuList = ({
+  open,
+  handleDrawerClose,
+  selectedIndex,
+  handleListItemClick,
+  nestedOpen,
+  handleNestedClick,
+}) => {
   const theme = useTheme();
+  const navigate = useNavigate();
+
+  const handleNavigation = (path, index) => {
+    navigate(path);
+    handleListItemClick(null, index);
+  };
 
   return (
     <Drawer variant="permanent" open={open}>
@@ -92,7 +114,7 @@ const MenuList = ({ open, handleDrawerClose, selectedIndex, handleListItemClick,
       <List component="nav">
         <ListItemButton
           selected={selectedIndex === 0}
-          onClick={(event) => handleListItemClick(event, 0)}
+          onClick={() => handleNavigation("/", 0)}
         >
           <ListItemIcon>
             <DashboardCustomizeSharpIcon />
@@ -114,12 +136,86 @@ const MenuList = ({ open, handleDrawerClose, selectedIndex, handleListItemClick,
             <ListItemButton
               sx={{ pl: 4 }}
               selected={selectedIndex === 3}
-              onClick={(event) => handleListItemClick(event, 3)}
+              onClick={() => handleNavigation("/add-student", 3)}
             >
               <ListItemIcon>
                 <PersonAddAlt1SharpIcon />
               </ListItemIcon>
               <ListItemText primary="Add Student" />
+            </ListItemButton>
+            <ListItemButton
+              sx={{ pl: 4 }}
+              selected={selectedIndex === 4}
+              onClick={() => handleNavigation("/student-category", 4)}
+            >
+              <ListItemIcon>
+                <CategoryIcon />
+              </ListItemIcon>
+              <ListItemText primary="Student Category" />
+            </ListItemButton>
+            <ListItemButton
+              sx={{ pl: 4 }}
+              selected={selectedIndex === 5}
+              onClick={() => handleNavigation("/student-list", 5)}
+            >
+              <ListItemIcon>
+                <FactCheckSharpIcon />
+              </ListItemIcon>
+              <ListItemText primary="Student List" />
+            </ListItemButton>
+            <ListItemButton
+              sx={{ pl: 4 }}
+              selected={selectedIndex === 9}
+              onClick={() => handleNavigation("/student-details", 9)}
+            >
+              <ListItemIcon>
+                <DetailsIcon />
+              </ListItemIcon>
+              <ListItemText primary="Student Details" />
+            </ListItemButton>
+            <ListItemButton
+              sx={{ pl: 4 }}
+              selected={selectedIndex === 10}
+              onClick={() => handleNavigation("/table-component", 10)}
+            >
+              <ListItemIcon>
+                <DetailsIcon />
+              </ListItemIcon>
+              <ListItemText primary="Table Component" />
+            </ListItemButton>
+          </List>
+        </Collapse>
+        <ListItemButton
+          selected={selectedIndex === 6}
+          onClick={handleNestedClick}
+        >
+          <ListItemIcon>
+            <ThreePIcon />
+          </ListItemIcon>
+          <ListItemText primary="Communicate" />
+          {nestedOpen ? <ExpandLess /> : <ExpandMore />}
+        </ListItemButton>
+        <Collapse in={nestedOpen} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <ListItemButton
+              sx={{ pl: 4 }}
+              selected={selectedIndex === 7}
+              onClick={() => handleNavigation("/notice-board", 7)}
+            >
+              <ListItemIcon>
+                <PendingActionsIcon />
+              </ListItemIcon>
+              <ListItemText primary="Notice Board" />
+            </ListItemButton>
+            <ListItemButton
+              sx={{ pl: 4 }}
+              selected={selectedIndex === 8}
+              onClick={() => handleNavigation("/add-notice", 8)}
+            >
+              <ListItemIcon>
+                <NoteAltIcon />
+              </ListItemIcon>
+              <ListItemText primary="Add Notice" />
             </ListItemButton>
           </List>
         </Collapse>
