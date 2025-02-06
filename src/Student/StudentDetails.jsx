@@ -56,30 +56,9 @@ const InfoText = styled(Typography)({
 
 const TabsContainer = styled(Box)({
   display: "flex",
-  justifyContent: "space-between",
+  justifyContent: "space-around",
   flexWrap: "wrap",
   marginBottom: "20px",
-});
-
-const TabButton = styled(Button)({
-  flex: "1 1 20%",
-  margin: "5px",
-  backgroundColor: "#e2e8f9",
-  color: "#000",
-  textTransform: "none",
-  borderRadius: "8px",
-  fontWeight: "bold",
-});
-
-const EditButton = styled(Button)({
-  backgroundColor: "#7a33ff",
-  color: "#fff",
-  textTransform: "none",
-  borderRadius: "8px",
-  fontWeight: "bold",
-  height: "40px",
-  width: "80px",
-  alignSelf: "flex-end",
 });
 
 const DetailsList = styled(Box)({
@@ -179,7 +158,7 @@ const StudentDetails = () => {
         <Wrapper>
           <StudentDetailsCard elevation={3}>
             <Wrapper style={{display:'flex',justifyContent:'flex-end' , border:'none'}}>
-              <EditButton>Edit</EditButton>
+              <Button variant="contained">Edit</Button>
             </Wrapper>
             <TabsContainer>
               {[
@@ -195,7 +174,7 @@ const StudentDetails = () => {
                 "Behaviour Record",
                 "Marksheet",
               ].map((tab) => (
-                <TabButton key={tab}>{tab}</TabButton>
+                <Button key={tab} variant="text">{tab}</Button>
               ))}
             </TabsContainer>
             <DetailsList>

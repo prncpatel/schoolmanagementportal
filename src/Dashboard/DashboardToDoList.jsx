@@ -75,7 +75,7 @@ const ToDoList = () => {
       component={Paper}
     >
       <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-        <Typography variant="h6" sx={{ fontWeight: 'bold', color: 'primary.main' }}>To Do List</Typography>
+        <Typography variant="h6" sx={{ fontWeight: 'bold'}}>To Do List</Typography>
         <Button
           variant="contained"
           onClick={handleOpen}

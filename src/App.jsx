@@ -11,7 +11,6 @@ import AddNotice from './Communicate/AddNotice';
 import StudentCategory from './Student/StudentCategory';
 import StudentList from './Student/StudentList';
 import StudentDetails from './Student/StudentDetails';
-import MyTableComponent from './Student/MyTableComponent';
 
 function App() {
   return (
@@ -27,7 +26,6 @@ function App() {
             <Route path="/notice-board" element={<NoticeBoard />} />
             <Route path="/add-notice" element={<AddNotice />} />
             <Route path="/student-details" element={<StudentDetails />} />
-            <Route path="/table-component" element={<MyTableComponent />} />
           </Routes>
         </MiniDrawer>
       </Router>
