@@ -16,6 +16,7 @@ import {
   Tab
 } from "@mui/material";
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
+import { motion } from "framer-motion";
 
 // Function to get MIME type from file name
 const getMimeType = (fileName) => {
@@ -379,16 +380,42 @@ const AddStudentForm = () => {
               aria-label="student admission tabs"
               variant="scrollable"
               scrollButtons={false}
-              sx={{ minWidth: "100%", flexShrink: 0,"& .MuiTabs-indicator": {
+              sx={{
+                minWidth: "100%",
+                flexShrink: 0,
+                "& .MuiTabs-indicator": {
                   display: "none",
                 },
                 "& .Mui-selected": {
                   borderBottom: `2px solid ${theme.palette.primary.main}`,
                   color: theme.palette.primary.main,
-                } }}
+                },
+                "& .MuiTab-root": {
+                  transition: "color 0.3s ease-in-out",
+                  "&:hover": {
+                    color: theme.palette.primary.main,
+                  },
+                },
+              }}
             >
               {fieldsConfig.map((tab, index) => (
-                <Tab key={index} label={tab.tab} />
+                <Tab
+                  key={index}
+                  label={
+                    <motion.div
+                      whileHover={{ scale: 1.05 }}
+                      transition={{ type: "spring", stiffness: 300 }}
+                    >
+                      {tab.tab}
+                    </motion.div>
+                  }
+                  sx={{
+                    "&.Mui-selected": {
+                      borderBottom: `2px solid ${theme.palette.primary.main}`,
+                      color: theme.palette.primary.main,
+                    },
+                  }}
+                />
               ))}
             </Tabs>
           </Box>
