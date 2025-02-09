@@ -30,8 +30,11 @@ const MiniDrawer = ({ children }) => {
     setSelectedIndex(index);
   };
 
-  const handleNestedClick = () => {
-    setNestedOpen(!nestedOpen);
+  const handleNestedClick = (index) => {
+    setNestedOpen((prev) => ({
+      ...prev,
+      [index]: !prev[index],
+    }));
   };
 
   return (
