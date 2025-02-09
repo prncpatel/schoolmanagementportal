@@ -1,0 +1,61 @@
+{
+    "menu": [
+      {
+        "title": "Dashboard",
+        "icon": "DashboardCustomizeSharp",
+        "path": "/",
+        "index": 0
+      },
+      {
+        "title": "Students",
+        "icon": "SchoolSharp",
+        "index": 2,
+        "subMenu": [
+          {
+            "title": "Add Student",
+            "icon": "PersonAddAlt1Sharp",
+            "path": "/add-student",
+            "index": 3
+          },
+          {
+            "title": "Student Category",
+            "icon": "Category",
+            "path": "/student-category",
+            "index": 4
+          },
+          {
+            "title": "Student List",
+            "icon": "FactCheckSharp",
+            "path": "/student-list",
+            "index": 5
+          },
+          {
+            "title": "Student Details",
+            "icon": "Details",
+            "path": "/student-details",
+            "index": 9
+          }
+        ]
+      },
+      {
+        "title": "Communicate",
+        "icon": "ThreeP",
+        "index": 6,
+        "subMenu": [
+          {
+            "title": "Notice Board",
+            "icon": "PendingActions",
+            "path": "/notice-board",
+            "index": 7
+          },
+          {
+            "title": "Add Notice",
+            "icon": "NoteAlt",
+            "path": "/add-notice",
+            "index": 8
+          }
+        ]
+      }
+    ]
+  }
+  

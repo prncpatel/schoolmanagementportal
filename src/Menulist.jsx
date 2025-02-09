@@ -12,17 +12,10 @@ import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import DashboardCustomizeSharpIcon from "@mui/icons-material/DashboardCustomizeSharp";
-import SchoolSharpIcon from "@mui/icons-material/SchoolSharp";
-import PersonAddAlt1SharpIcon from "@mui/icons-material/PersonAddAlt1Sharp";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
-import ThreePIcon from "@mui/icons-material/ThreeP";
-import PendingActionsIcon from "@mui/icons-material/PendingActions";
-import NoteAltIcon from "@mui/icons-material/NoteAlt";
-import FactCheckSharpIcon from "@mui/icons-material/FactCheckSharp";
-import CategoryIcon from "@mui/icons-material/Category";
-import DetailsIcon from "@mui/icons-material/Details";
+import MenuListData from "./Resources/MenuList.json";
+import * as Icons from "@mui/icons-material";
 
 const drawerWidth = 240;
 
@@ -96,119 +89,46 @@ const MenuList = ({
   return (
     <Drawer variant="permanent" open={open}>
       <DrawerHeader>
-        <TextField
-          id="standard-basic"
-          label="Search"
-          variant="outlined"
-          size="small"
-        />
+        <TextField id="standard-basic" label="Search" variant="outlined" size="small" />
         <IconButton onClick={handleDrawerClose}>
-          {theme.direction === "rtl" ? (
-            <ChevronRightIcon />
-          ) : (
-            <ChevronLeftIcon />
-          )}
+          {theme.direction === "rtl" ? <ChevronRightIcon /> : <ChevronLeftIcon />}
         </IconButton>
       </DrawerHeader>
       <Divider />
       <List component="nav">
-        <ListItemButton
-          selected={selectedIndex === 0}
-          onClick={() => handleNavigation("/", 0)}
-        >
-          <ListItemIcon>
-            <DashboardCustomizeSharpIcon />
-          </ListItemIcon>
-          <ListItemText primary="Dashboard" />
-        </ListItemButton>
-        <ListItemButton
-          selected={selectedIndex === 2}
-          onClick={handleNestedClick}
-        >
-          <ListItemIcon>
-            <SchoolSharpIcon />
-          </ListItemIcon>
-          <ListItemText primary="Students" />
-          {nestedOpen ? <ExpandLess /> : <ExpandMore />}
-        </ListItemButton>
-        <Collapse in={nestedOpen} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
+        {MenuListData.menu.map((item) => {
+          const IconComponent = Icons[item.icon];
+          return (
+          <React.Fragment key={item.index}>
             <ListItemButton
-              sx={{ pl: 4 }}
-              selected={selectedIndex === 3}
-              onClick={() => handleNavigation("/add-student", 3)}
+              selected={selectedIndex === item.index}
+              onClick={() => handleNestedClick(item.index)}
             >
-              <ListItemIcon>
-                <PersonAddAlt1SharpIcon />
-              </ListItemIcon>
-              <ListItemText primary="Add Student" />
+              <ListItemIcon>{IconComponent && <IconComponent />}</ListItemIcon>
+              <ListItemText primary={item.title} />
+              {item.subMenu && (nestedOpen[item.index] ? <ExpandLess /> : <ExpandMore />)}
             </ListItemButton>
-            <ListItemButton
-              sx={{ pl: 4 }}
-              selected={selectedIndex === 4}
-              onClick={() => handleNavigation("/student-category", 4)}
-            >
-              <ListItemIcon>
-                <CategoryIcon />
-              </ListItemIcon>
-              <ListItemText primary="Student Category" />
-            </ListItemButton>
-            <ListItemButton
-              sx={{ pl: 4 }}
-              selected={selectedIndex === 5}
-              onClick={() => handleNavigation("/student-list", 5)}
-            >
-              <ListItemIcon>
-                <FactCheckSharpIcon />
-              </ListItemIcon>
-              <ListItemText primary="Student List" />
-            </ListItemButton>
-            <ListItemButton
-              sx={{ pl: 4 }}
-              selected={selectedIndex === 9}
-              onClick={() => handleNavigation("/student-details", 9)}
-            >
-              <ListItemIcon>
-                <DetailsIcon />
-              </ListItemIcon>
-              <ListItemText primary="Student Details" />
-            </ListItemButton>
-          </List>
-        </Collapse>
-        <ListItemButton
-          selected={selectedIndex === 6}
-          onClick={handleNestedClick}
-        >
-          <ListItemIcon>
-            <ThreePIcon />
-          </ListItemIcon>
-          <ListItemText primary="Communicate" />
-          {nestedOpen ? <ExpandLess /> : <ExpandMore />}
-        </ListItemButton>
-        <Collapse in={nestedOpen} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
-            <ListItemButton
-              sx={{ pl: 4 }}
-              selected={selectedIndex === 7}
-              onClick={() => handleNavigation("/notice-board", 7)}
-            >
-              <ListItemIcon>
-                <PendingActionsIcon />
-              </ListItemIcon>
-              <ListItemText primary="Notice Board" />
-            </ListItemButton>
-            <ListItemButton
-              sx={{ pl: 4 }}
-              selected={selectedIndex === 8}
-              onClick={() => handleNavigation("/add-notice", 8)}
-            >
-              <ListItemIcon>
-                <NoteAltIcon />
-              </ListItemIcon>
-              <ListItemText primary="Add Notice" />
-            </ListItemButton>
-          </List>
-        </Collapse>
+            {item.subMenu && (
+              <Collapse in={nestedOpen[item.index]} timeout="auto" unmountOnExit>
+                <List component="div" disablePadding>
+                  {item.subMenu.map((subItem) => {
+                    const SubIconComponent = Icons[subItem.icon];
+                    return (
+                    <ListItemButton
+                      key={subItem.index}
+                      sx={{ pl: 4 }}
+                      selected={selectedIndex === subItem.index}
+                      onClick={() => handleNavigation(subItem.path, subItem.index)}
+                    >
+                      <ListItemIcon>{SubIconComponent && <SubIconComponent />}</ListItemIcon>
+                      <ListItemText primary={subItem.title} />
+                    </ListItemButton>
+                  )})}
+                </List>
+              </Collapse>
+            )}
+          </React.Fragment>
+        )})}
       </List>
       <Divider />
     </Drawer>
