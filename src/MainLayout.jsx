@@ -4,6 +4,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Navbar from './Navbar';
 import MenuList from './Menulist';
 import { styled } from '@mui/material/styles';
+import { Outlet } from 'react-router-dom';
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -51,7 +52,7 @@ const MiniDrawer = ({ children }) => {
       />
       <Box component="main" sx={{ flexGrow: 1, p: 3, overflow:'auto' }}>
         <DrawerHeader />
-        {children}
+        <Outlet/>
       </Box>
     </Box>
   );

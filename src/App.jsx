@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MiniDrawer from './MainLayout';
@@ -12,23 +12,34 @@ import StudentCategory from './Student/StudentCategory';
 import StudentList from './Student/StudentList';
 import StudentDetails from './Student/StudentDetails';
 
+const router = createBrowserRouter(
+  [
+    {
+      path: "/",
+      element: <MiniDrawer />,
+      children: [
+        { path: "/", element: <Dashboard /> },
+        { path: "/add-student", element: <AddStudent /> },
+        { path: "/student-category", element: <StudentCategory /> },
+        { path: "/student-list", element: <StudentList /> },
+        { path: "/notice-board", element: <NoticeBoard /> },
+        { path: "/add-notice", element: <AddNotice /> },
+        { path: "/student-details", element: <StudentDetails /> },
+      ],
+    },
+  ],
+  {
+    future: {
+      v7_startTransition: true,
+    },
+  }
+);
+
 function App() {
   return (
     <ThemeProvider theme={Theme}>
       <CssBaseline />
-      <Router>
-        <MiniDrawer>
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/add-student" element={<AddStudent />} />
-            <Route path="/student-category" element={<StudentCategory />} />
-            <Route path="/student-list" element={<StudentList />} />
-            <Route path="/notice-board" element={<NoticeBoard />} />
-            <Route path="/add-notice" element={<AddNotice />} />
-            <Route path="/student-details" element={<StudentDetails />} />
-          </Routes>
-        </MiniDrawer>
-      </Router>
+      <RouterProvider router={router} />
     </ThemeProvider>
   );
 }

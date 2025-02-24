@@ -99,36 +99,38 @@ const MenuList = ({
         {MenuListData.menu.map((item) => {
           const IconComponent = Icons[item.icon];
           return (
-          <React.Fragment key={item.index}>
-            <ListItemButton
-              selected={selectedIndex === item.index}
-              onClick={() => handleNestedClick(item.index)}
-            >
-              <ListItemIcon>{IconComponent && <IconComponent />}</ListItemIcon>
-              <ListItemText primary={item.title} />
-              {item.subMenu && (nestedOpen[item.index] ? <ExpandLess /> : <ExpandMore />)}
-            </ListItemButton>
-            {item.subMenu && (
-              <Collapse in={nestedOpen[item.index]} timeout="auto" unmountOnExit>
-                <List component="div" disablePadding>
-                  {item.subMenu.map((subItem) => {
-                    const SubIconComponent = Icons[subItem.icon];
-                    return (
-                    <ListItemButton
-                      key={subItem.index}
-                      sx={{ pl: 4 }}
-                      selected={selectedIndex === subItem.index}
-                      onClick={() => handleNavigation(subItem.path, subItem.index)}
-                    >
-                      <ListItemIcon>{SubIconComponent && <SubIconComponent />}</ListItemIcon>
-                      <ListItemText primary={subItem.title} />
-                    </ListItemButton>
-                  )})}
-                </List>
-              </Collapse>
-            )}
-          </React.Fragment>
-        )})}
+            <React.Fragment key={item.index}>
+              <ListItemButton
+                selected={selectedIndex === item.index}
+                onClick={() => !!item.path ? handleNavigation(item.path, item.index) : handleNestedClick(item.index)}
+              >
+                <ListItemIcon>{IconComponent && <IconComponent />}</ListItemIcon>
+                <ListItemText primary={item.title} />
+                {item.subMenu && (nestedOpen[item.index] ? <ExpandLess /> : <ExpandMore />)}
+              </ListItemButton>
+              {item.subMenu && (
+                <Collapse in={nestedOpen[item.index]} timeout="auto" unmountOnExit>
+                  <List component="div" disablePadding>
+                    {item.subMenu.map((subItem) => {
+                      const SubIconComponent = Icons[subItem.icon];
+                      return (
+                        <ListItemButton
+                          key={subItem.index}
+                          sx={{ pl: 4 }}
+                          selected={selectedIndex === subItem.index}
+                          onClick={() => handleNavigation(subItem.path, subItem.index)}
+                        >
+                          <ListItemIcon>{SubIconComponent && <SubIconComponent />}</ListItemIcon>
+                          <ListItemText primary={subItem.title} />
+                        </ListItemButton>
+                      )
+                    })}
+                  </List>
+                </Collapse>
+              )}
+            </React.Fragment>
+          )
+        })}
       </List>
       <Divider />
     </Drawer>

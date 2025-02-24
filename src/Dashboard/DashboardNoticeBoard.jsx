@@ -1,10 +1,6 @@
-import React, { useState } from "react";
+import React, { lazy, memo, Suspense, useCallback, useMemo, useState } from "react";
 import {
   Button,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
   Table,
   TableBody,
   TableCell,
@@ -15,21 +11,23 @@ import {
   Typography
 } from "@mui/material";
 import { Visibility as VisibilityIcon } from "@mui/icons-material";
-import moment from "moment";
+import dayjs from "dayjs";
+const ActionDialog = lazy(()=> import("./NoticeBoardComponents/ActionDialog"));
 
 const DashboardNoticeBoard = ({ notices }) => {
+  const memoizedNotices = useMemo(() => notices, [notices]);
   const [open, setOpen] = useState(false);
   const [selectedNotice, setSelectedNotice] = useState(null);
 
-  const handleViewClick = (notice) => {
+  const handleViewClick = useCallback((notice) => {
     setSelectedNotice(notice);
     setOpen(true);
-  };
+  },[]);
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setOpen(false);
     setSelectedNotice(null);
-  };
+  },[]);;
 
   return (
     <div>
@@ -71,9 +69,9 @@ const DashboardNoticeBoard = ({ notices }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {notices.map((notice, index) => (
+          {memoizedNotices.map((notice, index) => (
             <TableRow key={index}>
-              <TableCell>{moment(notice.date).format("YYYY-MM-DD")}</TableCell>
+              <TableCell>{dayjs(notice.date).format("YYYY-MM-DD")}</TableCell>
               <TableCell>{notice.title}</TableCell>
               <TableCell>
                 <IconButton onClick={() => handleViewClick(notice)}>
@@ -85,20 +83,12 @@ const DashboardNoticeBoard = ({ notices }) => {
         </TableBody>
       </Table>
       {selectedNotice && (
-        <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
-          <DialogTitle style={{ backgroundColor: "#6c3ad1", color: "#fff" }}>
-            {selectedNotice.title}
-          </DialogTitle>
-          <DialogContent dividers>
-            <p>{selectedNotice.description}</p>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose}>Close</Button>
-          </DialogActions>
-        </Dialog>
+        <Suspense fallback={<div>loading...</div>}>
+          <ActionDialog open={open} handleClose={handleClose} selectedNotice={selectedNotice} />
+        </Suspense>
       )}
     </div>
   );
 };
 
-export default DashboardNoticeBoard;
+export default memo(DashboardNoticeBoard);
