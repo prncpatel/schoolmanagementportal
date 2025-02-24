@@ -12,7 +12,7 @@ import { useTheme } from "@emotion/react";
 
 // Sample notices data
 const notices = [
-  { date: "2nd Jul, 2024", title: "Exams", description: "Details about the exams." },
+  { date: "02/07/2022", title: "Exams", description: "Details about the exams." },
   // Add more notices as needed
 ];
 
